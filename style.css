@@ -1,8 +1,28 @@
 #container {
-    padding: 15px;
-    margin: 0px;
-    display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
+  padding: 15px;
+  margin: 0px;
+  display: flex;
+  color: white;
 }
-#right {
-  padding-left: 15px;
+#FIO {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: right;
+  position: fixed;
+  right: 0; bottom: 0;
+  padding-right: 25px;
+  color: red;
+}
+button{
+   border: none;
+    border-radius: 7px;
+    padding: 6px 20px;
+    background: #F0E4DC;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: black;
 }
