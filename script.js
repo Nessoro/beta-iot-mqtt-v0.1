@@ -1,5 +1,5 @@
   // подключение к MQTT-брокеру
-<script src=" https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js "></script>
+
   client = new Paho.MQTT.Client("m24.cloudmqtt.com", 30369,"teplica-site");
   
   // назначение обработчиков для принятия сообщений и обрыва связи
