@@ -1,0 +1,8 @@
+#container {
+    padding: 15px;
+    margin: 0px;
+    display: flex;
+}
+#right {
+  padding-left: 15px;
+}
