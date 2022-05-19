@@ -9,12 +9,17 @@
 Сайт для управления Автоматизированной Фермы <br><br>
  
 
-<button id="btn" onclick="Connect()"> Подключение / очистка журнала</button>
+<button id="btn" onclick="Connect()"> Подключение </button>
      <script>
        var text_div = document.getElementById("text");
 function Connect()
  {
 text.innerHTML = 'Подключение. . .';
+  function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+delay(3000).then(() => text.innerHTML = 'Подключено');
+ }
  }
     </script>
 
