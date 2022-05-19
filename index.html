@@ -1,7 +1,6 @@
 <html>
  <head>
 <link rel="stylesheet" href="style.css" type="text/css"/>
-<script src=" https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js "></script>
 <script src="script.js"></script>
 </head>
  <body>
@@ -9,23 +8,63 @@
   <div id="left">
 Сайт для управления Автоматизированной Фермы <br><br>
  
+
+<button id="btn" onclick="Connect()"> Подключение / очистка журнала</button>
+     <script>
+       var text_div = document.getElementById("text");
+function Connect()
+ {
+text.innerHTML = 'Подключение. . .';
+ }
+    </script>
+
+<button id="door" onclick="openF()">Открыть / закрыть форточку</button> 
+  <script>
+       var text_div = document.getElementById("text");
+function openF()
+ {
+text.innerHTML = 'Открыто <button onclick="closeF()">Закрыть</button>'; 
+ }
+function closeF()
+   {
+    text.innerHTML = 'Закрыто <button onclick="openF()">Открыть</button>';
+   }
+ </script>
+
+ <br><br>
+
+ <button id="getTemp" onclick="Temp()">Текущая температура</button>
+    <script>
+       var text_div = document.getElementById("text");
+function Temp()
+ {
+text.innerHTML = 'Текущая температура - 30°';
+ }
+ </script>
  
-<button id="btn">Подключение / очистка журнала</button>
-    
-<button id="door">Открыть (0.95) / закрыть форточку (0.05)</button>
-
+<button id="pushRelay" onclick="pushR()">Питание реле</button>
+    <script>
+       var text_div = document.getElementById("text");
+function pushR()
+ {
+text.innerHTML = 'Включено';
+ }
+ </script>
+  
 <br><br>
-
-
-<button id="getTemp">Текущая температура</button>
-<button id="getTempContinious">Получать температуру каждые 2 сек. / остановить</button><br><br>
- <button id="pushRelay">Питание реле</button>
-<br><br>
-  <button id="getHumidity">Влажность</button>
+   
+  <button id="getHumidity" onclick="getH">Влажность</button>
+       <script>
+       var text_div = document.getElementById("text");
+function getH()
+ {
+text.innerHTML = 'Влажность - 56%';
+ }
+ </script>
 <br><br>
 
 <div id="mqttMess">Журнал MQTT-сообщений: </div>
-  
+  <div id="text"></div>
   </div> 
 </div>
  <div id="FIO">
