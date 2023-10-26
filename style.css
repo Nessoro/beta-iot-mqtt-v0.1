@@ -26,3 +26,8 @@ button{
     font-weight: bold;
     color: black;
 }
+button:disabled {
+  background-color: gray; /* Замените на нужный вам цвет */
+  color: white; /* Цвет текста на кнопке */
+  cursor: not-allowed; /* Изменение курсора для неактивных кнопок */
+}
