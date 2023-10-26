@@ -16,7 +16,7 @@
 <button id="pushRelay" style="display: none;" onclick="pushR()">Питание реле</button>
 <button id="getHumidity" style="display: none;" onclick="getH()">Влажность</button>
 <button id="motionSensor" style="display: none;" onclick="checkMotion()">Датчик движения</button>
-<button id="lightSensor" style="display: none;" onclick="checkLight()">Датчик освещенния</button>
+<button id="lightSensor" style="display: none;" onclick="checkLight()">Датчик освещения</button>
 
 
 <div id="mqttMess">Журнал MQTT-сообщений: </div>
@@ -164,22 +164,22 @@ function checkMotion() {
     }
 
 function checkLight() {
-      currentLightValue = Math.floor(Math.random() * 500); // Генерируем случайное значение освещенности
-      lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
+      currentLightValue = Math.floor(Math.random() * 500); // Генерируем случайное значение освещености
+      lightSensorButton.innerHTML = 'Освещение: ' + currentLightValue;
 
       if (currentLightValue < criticalLightValue) {
-        textLightSensor_div.innerHTML = 'Критическая значение освещенние! <button onclick="fixLight()">Исправить</button>';
+        textLightSensor_div.innerHTML = 'Критическая значение освещение! <button onclick="fixLight()">Исправить</button>';
 	fixLightButton.disabled = false;
       } else {
-        textLightSensor_div.innerHTML = 'Освещенние в норме';
+        textLightSensor_div.innerHTML = 'Освещение в норме';
 	lightSensorButton.disabled = true;
       }
     }
 
     function fixLight() {
-      currentLightValue = 400; // Исправляем освещенние
-      lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
-      textLightSensor_div.innerHTML = 'Освещенние восстановлена';
+      currentLightValue = 400; // Исправляем освещение
+      lightSensorButton.innerHTML = 'Освещение: ' + currentLightValue;
+      textLightSensor_div.innerHTML = 'Освещение восстановлена';
       lightSensorButton.disabled = true;
     }
 
