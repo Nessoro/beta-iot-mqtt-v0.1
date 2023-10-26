@@ -38,17 +38,21 @@ var textRelay_div = document.getElementById("textRelay");
 var textLightSensor_div = document.getElementById("textLightSensor");
 var connectButton = document.getElementById("btn");
 var doorButton = document.getElementById("door")
+var tempButton = document.getElementById("getTemp")
+var humidityButton = document.getElementById("getHumidity")
 var relayButton = document.getElementById("pushRelay");
 var motionSensorButton = document.getElementById("motionSensor");
 var lightSensorButton = document.getElementById("lightSensor");
 var fixLightButton = document.getElementById("fixLight");
 
-	var motionDetected = false;
-	var lightDetected = false;
+	var minTemp = 18; // Минимальная температура (в градусах Цельсия)
+	var maxTemp = 24; // Максимальная температура (в градусах Цельсия)
 
-    		var criticalLightValue = 200; // Критическое значение освещенние
-    		var currentLightValue = 0; // Текущее значение освещенние
+		var motionDetected = false;
+		var lightDetected = false;
 
+    			var criticalLightValue = 200; // Критическое значение освещенние
+    			var currentLightValue = 0; // Текущее значение освещенние
 
 
 function Connect() {
@@ -85,10 +89,9 @@ function closeF() {
 }
 
 function Temp() {
-  var minTemp = 18; // Минимальная температура (в градусах Цельсия)
-  var maxTemp = 24; // Максимальная температура (в градусах Цельсия)
   var randomTemp = Math.floor(Math.random() * (maxTemp - minTemp + 1)) + minTemp;
   textTemp_div.innerHTML = 'Текущая температура - ' + randomTemp + '°';
+  tempButton.disabled = true;
 }
 
 
@@ -103,6 +106,7 @@ function getH() {
   var maxHumidity = 60; // Максимальная влажность (в процентах)
   var randomHumidity = Math.floor(Math.random() * (maxHumidity - minHumidity + 1)) + minHumidity;
   textHumidity_div.innerHTML = 'Влажность - ' + randomHumidity + '%';
+  humidityButton.disabled = true;
 }
 
 function checkMotion() {
@@ -141,7 +145,7 @@ function checkLight() {
  <br><br>
  Ильяс Жамалетдинов М3О-125М-23<br><br>
  </div>
-  <title>ISECALE</title>
+  <title>ISECALE(test)</title>
   <style>
    body {
      background: url(https://wallpaperaccess.com/full/2367881.jpg)
