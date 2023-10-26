@@ -25,6 +25,7 @@ button{
     text-transform: uppercase;
     font-weight: bold;
     color: black;
+    margin-bottom: 5px;
 }
 button:disabled {
   background-color: gray; /* Замените на нужный вам цвет */
