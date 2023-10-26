@@ -21,11 +21,11 @@
 
 <div id="mqttMess">Журнал MQTT-сообщений: </div>
 <div id="text"></div>
+<div id="textRelay"></div>
+<div id="textLightSensor"></div>
 <div id="textLight"></div>
 <div id="textTemp"></div>
 <div id="textHumidity"></div>
-<div id="textRelay"></div>
-<div id="textLightSensor"></div>
 </div> 
 </div>
 
@@ -53,11 +53,12 @@ var fixLightButton = document.getElementById("fixLight");
 
 function Connect() {
   text_div.innerHTML = 'Подключение. . .';
-  connectButton.innerHTML = 'Подключено';
+  connectButton.innerHTML = 'Подключение. . .';
   connectButton.disabled = true; // Делаем кнопку неактивной
   
 // Имитация задержки для операции подключения
   setTimeout(function() {
+  connectButton.innerHTML = 'Подключено';
   text_div.innerHTML = 'Подключено';
 
     // После успешного подключения, отображаем другие кнопки
