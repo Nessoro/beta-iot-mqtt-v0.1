@@ -21,11 +21,21 @@
 
 <div id="mqttMess">Журнал MQTT-сообщений: </div>
 <div id="text"></div>
+<div id="textLight"></div>
+<div id="textTemp"></div>
+<div id="textHumidity"></div>
+<div id="textRelay"></div>
+<div id="textLightSensor"></div>
 </div> 
 </div>
 
  <script>
 var text_div = document.getElementById("text");
+var textLight_div = document.getElementById("textLight");
+var textTemp_div = document.getElementById("textTemp");
+var textHumidity_div = document.getElementById("textHumidity");
+var textRelay_div = document.getElementById("textRelay");
+var textLightSensor_div = document.getElementById("textLightSensor");
 var connectButton = document.getElementById("btn");
 var doorButton = document.getElementById("door")
 var relayButton = document.getElementById("pushRelay");
@@ -64,26 +74,26 @@ function Connect() {
 function openF() {
   doorButton.innerHTML = 'Включен';
   doorButton.disabled = true;	
-  text_div.innerHTML = 'Включить <button onclick="closeF()">Отключить</button>';
+  textLight_div.innerHTML = 'Включить <button onclick="closeF()">Отключить</button>';
 }
 
 function closeF() {
   doorButton.innerHTML = 'Выключен';
   doorButton.disabled = true;
-  text_div.innerHTML = 'Отключить <button onclick="openF()">Включить</button>';
+  textLight_div.innerHTML = 'Отключить <button onclick="openF()">Включить</button>';
 }
 
 function Temp() {
   var minTemp = 18; // Минимальная температура (в градусах Цельсия)
   var maxTemp = 24; // Максимальная температура (в градусах Цельсия)
   var randomTemp = Math.floor(Math.random() * (maxTemp - minTemp + 1)) + minTemp;
-  text_div.innerHTML = 'Текущая температура - ' + randomTemp + '°';
+  textTemp_div.innerHTML = 'Текущая температура - ' + randomTemp + '°';
 }
 
 
 function pushR() {
-  text_div.innerHTML = 'Включено';
-  relayButton.innerHTML = 'Включено';
+  textRelay_div.innerHTML = 'Реле включено';
+  relayButton.innerHTML = 'Реле включено';
   relayButton.disabled = true; // Делаем кнопку "Питание реле" неактивной
 }
 
@@ -91,7 +101,7 @@ function getH() {
   var minHumidity = 40; // Минимальная влажность (в процентах)
   var maxHumidity = 60; // Максимальная влажность (в процентах)
   var randomHumidity = Math.floor(Math.random() * (maxHumidity - minHumidity + 1)) + minHumidity;
-  text_div.innerHTML = 'Влажность - ' + randomHumidity + '%';
+  textHumidity_div.innerHTML = 'Влажность - ' + randomHumidity + '%';
 }
 
 function checkMotion() {
@@ -104,10 +114,10 @@ function checkLight() {
       lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
 
       if (currentLightValue < criticalLightValue) {
-        text_div.innerHTML = 'Критическая значение освещенние! <button onclick="fixLight()">Исправить</button>';
+        textLightSensor_div.innerHTML = 'Критическая значение освещенние! <button onclick="fixLight()">Исправить</button>';
 	fixLightButton.disabled = false;
       } else {
-        text_div.innerHTML = 'Освещенние в норме';
+        textLightSensor_div.innerHTML = 'Освещенние в норме';
 	lightSensorButton.disabled = true;
       }
     }
@@ -115,8 +125,8 @@ function checkLight() {
     function fixLight() {
       currentLightValue = 400; // Исправляем освещенние
       lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
-      text_div.innerHTML = 'Освещенние восстановлена';
-      fixLightButton.disabled = true;
+      textLightSensor_div.innerHTML = 'Освещенние восстановлена';
+      lightSensorButton.disabled = true;
     }
 
  </script>
