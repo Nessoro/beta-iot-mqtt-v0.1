@@ -25,7 +25,11 @@
 <div id="textLightSensor"></div>
 <div id="textLight"></div>
 <div id="textTemp"></div>
+<div id="textTempPlus"></div>
+<div id="textTempMinus"></div>
 <div id="textHumidity"></div>
+<div id="textHumidityPlus"></div>
+<div id="textHumidityMinus"></div>
 </div> 
 </div>
 
@@ -33,20 +37,33 @@
 var text_div = document.getElementById("text");
 var textLight_div = document.getElementById("textLight");
 var textTemp_div = document.getElementById("textTemp");
+var textTempPlus_div = document.getElementById("textTempPlus");
+var textTempMinus_div = document.getElementById("textTempMinus");
 var textHumidity_div = document.getElementById("textHumidity");
+var textHumidityPlus_div = document.getElementById("textHumidityPlus");
+var textHumidityMinus_div = document.getElementById("textHumidityMinus");
 var textRelay_div = document.getElementById("textRelay");
 var textLightSensor_div = document.getElementById("textLightSensor");
 var connectButton = document.getElementById("btn");
 var doorButton = document.getElementById("door")
 var tempButton = document.getElementById("getTemp")
+var increaseTempButton = document.getElementById("increaseTemp");
+var decreaseTempButton = document.getElementById("decreaseTemp");
+var increaseHumidityButton = document.getElementById("increaseHumidity");
+var decreaseHumidityButton = document.getElementById("decreaseHumidity");
 var humidityButton = document.getElementById("getHumidity")
 var relayButton = document.getElementById("pushRelay");
 var motionSensorButton = document.getElementById("motionSensor");
 var lightSensorButton = document.getElementById("lightSensor");
 var fixLightButton = document.getElementById("fixLight");
 
+	var currentTemp = 0; // Начальная температура
 	var minTemp = 18; // Минимальная температура (в градусах Цельсия)
 	var maxTemp = 24; // Максимальная температура (в градусах Цельсия)
+	
+	var currentHumidity = 0; // Начальная влажность
+	var minHumidity = 40; // Минимальная влажность (в процентах)
+  	var maxHumidity = 60; // Максимальная влажность (в процентах)
 
 		var motionDetected = false;
 		var lightDetected = false;
@@ -73,6 +90,8 @@ function Connect() {
     document.getElementById("motionSensor").style.display = "inline-block";
     lightSensorButton.style = "inline-block";
     fixLightButton.style = "inline-block";
+    increaseTemp.style.style = "inline-block";
+    decreaseTemp.style.style = "inline-block";
   }, 3000);
 }
 
@@ -89,11 +108,27 @@ function closeF() {
 }
 
 function Temp() {
-  var randomTemp = Math.floor(Math.random() * (maxTemp - minTemp + 1)) + minTemp;
-  textTemp_div.innerHTML = 'Текущая температура - ' + randomTemp + '°';
+  currentTemp = Math.floor(Math.random() * (maxTemp - minTemp + 1)) + minTemp;
+  textTemp_div.innerHTML = 'Текущая температура - ' + currentTemp + '°';
+  textTempPlus_div.innerHTML = '<button onclick="increaseTemp()">Увеличить температуру</button>';
+  textTempMinus_div.innerHTML = '<button onclick="decreaseTemp()">Уменьшить температуру</button>'; 
   tempButton.disabled = true;
 }
 
+function increaseTemp() {
+var currentTempk;
+  if (currentTemp < maxTemp) {
+    currentTemp++;
+    textTemp_div.innerHTML = 'Текущая температура - ' + currentTemp + '°';
+  }
+}
+
+function decreaseTemp() {
+  if (currentTemp > minTemp) {
+    currentTemp--;
+    textTemp_div.innerHTML = 'Текущая температура - ' + currentTemp + '°';
+  }
+}
 
 function pushR() {
   textRelay_div.innerHTML = 'Реле включено';
@@ -102,11 +137,25 @@ function pushR() {
 }
 
 function getH() {
-  var minHumidity = 40; // Минимальная влажность (в процентах)
-  var maxHumidity = 60; // Максимальная влажность (в процентах)
-  var randomHumidity = Math.floor(Math.random() * (maxHumidity - minHumidity + 1)) + minHumidity;
-  textHumidity_div.innerHTML = 'Влажность - ' + randomHumidity + '%';
+  currentHumidity = Math.floor(Math.random() * (maxHumidity - minHumidity + 1)) + minHumidity;
+  textHumidity_div.innerHTML = 'Влажность - ' + currentHumidity + '%';
+  textHumidityPlus_div.innerHTML = '<button onclick="increaseHumidity()">Повысить влажность</button>';
+  textHumidityMinus_div.innerHTML = '<button onclick="decreaseHumidity()">Понизить влажность</button>';
   humidityButton.disabled = true;
+}
+
+function increaseHumidity() {
+  if (currentHumidity < maxHumidity) {
+    currentHumidity++;
+    textHumidity_div.innerHTML = 'Влажность - ' + currentHumidity + '%';
+  }
+}
+
+function decreaseHumidity() {
+  if (currentHumidity > minHumidity) {
+    currentHumidity--;
+    textHumidity_div.innerHTML = 'Влажность - ' + currentHumidity + '%';
+  }
 }
 
 function checkMotion() {
@@ -148,7 +197,7 @@ function checkLight() {
   <title>ISECALE(test)</title>
   <style>
    body {
-     background: url(https://wallpaperaccess.com/full/2367881.jpg)
+    // background: url(https://wallpaperaccess.com/full/2367881.jpg)
     }
    </body>
   </html>
