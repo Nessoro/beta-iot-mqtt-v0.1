@@ -6,79 +6,93 @@
  <body>
 <div id="container"> 
   <div id="left">
-Сайт для управления Автоматизированной Фермы <br><br>
+Сайт для управления освещением и воздухообменом на предприятии  <br><br>
  
 
 <button id="btn" onclick="Connect()"> Подключение </button>
-     <script>
-       var text_div = document.getElementById("text");
-function Connect()
- {
-text.innerHTML = 'Подключение. . .';
-  function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-delay(3000).then(() => text.innerHTML = 'Подключено');
- }
-    </script>
 
-<button id="door" onclick="openF()">Открыть / закрыть форточку</button> 
-  <script>
-       var text_div = document.getElementById("text");
-function openF()
- {
-text.innerHTML = 'Открыто <button onclick="closeF()">Закрыть</button>'; 
- }
-function closeF()
-   {
-    text.innerHTML = 'Закрыто <button onclick="openF()">Открыть</button>';
-   }
- </script>
-
- <br><br>
-
- <button id="getTemp" onclick="Temp()">Текущая температура</button>
-    <script>
-       var text_div = document.getElementById("text");
-function Temp()
- {
-text.innerHTML = 'Текущая температура - 30°';
- }
- </script>
- 
-<button id="pushRelay" onclick="pushR()">Питание реле</button>
-    <script>
-       var text_div = document.getElementById("text");
-function pushR()
- {
-text.innerHTML = 'Включено';
- }
- </script>
-  
-<br><br>
-   
-  <button id="getHumidity" onclick="getH()">Влажность</button>
-       <script>
-       var text_div = document.getElementById("text");
-function getH()
- {
-text.innerHTML = 'Влажность - 56%';
- }
- </script>
-<br><br>
+<button id="door" style="display: none;" onclick="openF()">Включить / Отключить свет</button>
+<button id="getTemp" style="display: none;" onclick="Temp()">Текущая температура</button>
+<button id="pushRelay" style="display: none;" onclick="pushR()">Питание реле</button>
+<button id="getHumidity" style="display: none;" onclick="getH()">Влажность</button>
+<button id="motionSensor" style="display: none;" onclick="checkMotion()">Датчик движения</button>
 
 <div id="mqttMess">Журнал MQTT-сообщений: </div>
-  <div id="text"></div>
-  </div> 
+<div id="text"></div>
+</div> 
 </div>
+
+ <script>
+var text_div = document.getElementById("text");
+var connectButton = document.getElementById("btn");
+var relayButton = document.getElementById("pushRelay");
+var motionSensorButton = document.getElementById("motionSensor");
+    var motionDetected = false;
+
+function Connect() {
+  text_div.innerHTML = 'Подключение. . .';
+  connectButton.innerHTML = 'Подключено';
+  connectButton.disabled = true; // Делаем кнопку неактивной
+  
+// Имитация задержки для операции подключения
+  setTimeout(function() {
+  text_div.innerHTML = 'Подключено';
+
+    // После успешного подключения, отображаем другие кнопки
+    document.getElementById("door").style.display = "inline-block";
+    document.getElementById("getTemp").style.display = "inline-block";
+    document.getElementById("pushRelay").style.display = "inline-block";
+    document.getElementById("getHumidity").style.display = "inline-block";
+    document.getElementById("motionSensor").style.display = "inline-block";
+  }, 3000);
+}
+
+function openF() {
+  text_div.innerHTML = 'Включить <button onclick="closeF()">Отключить</button>';
+}
+
+function closeF() {
+  text_div.innerHTML = 'Отключить <button onclick="openF()">Включить</button>';
+}
+
+function Temp() {
+  var minTemp = 18; // Минимальная температура (в градусах Цельсия)
+  var maxTemp = 24; // Максимальная температура (в градусах Цельсия)
+  var randomTemp = Math.floor(Math.random() * (maxTemp - minTemp + 1)) + minTemp;
+  text_div.innerHTML = 'Текущая температура - ' + randomTemp + '°';
+}
+
+
+function pushR() {
+  text_div.innerHTML = 'Включено';
+  relayButton.innerHTML = 'Включено';
+  relayButton.disabled = true; // Делаем кнопку "Питание реле" неактивной
+}
+
+function getH() {
+  var minHumidity = 40; // Минимальная влажность (в процентах)
+  var maxHumidity = 60; // Максимальная влажность (в процентах)
+  var randomHumidity = Math.floor(Math.random() * (maxHumidity - minHumidity + 1)) + minHumidity;
+  text_div.innerHTML = 'Влажность - ' + randomHumidity + '%';
+}
+
+function checkMotion() {
+       motionSensorButton.innerHTML = 'Датчик движения (активен, недоступен)';
+      motionSensorButton.disabled = true;
+    }
+
+ </script>
+<br><br>
+
+
  <div id="FIO">
  <br><br>
  <br><br>
  <br><br>
  <br><br>
- Ильяс Жамалетдинов М4О-311Б-19<br><br>
+ Ильяс Жамалетдинов М3О-125М-23<br><br>
  </div>
-  <title>background</title>
+  <title>ISECALE</title>
   <style>
    body {
      background: url(https://wallpaperaccess.com/full/2367881.jpg)
