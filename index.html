@@ -117,7 +117,7 @@ function openF() {
  // lightSensorButton.disabled = true;  
   doorButton.innerHTML = 'Включен';
   doorButton.disabled = true;	
-  textLight_div.innerHTML = 'Включить <button onclick="closeF()">Отключить</button>';
+  textLight_div.innerHTML = '<button onclick="closeF()">Отключить</button>';
 }
 
 function closeF() {
@@ -126,7 +126,7 @@ function closeF() {
   lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
  // lightSensorButton.disabled = true;
   doorButton.disabled = true;
-  textLight_div.innerHTML = 'Отключить <button onclick="openF()">Включить</button>';
+  textLight_div.innerHTML = '<button onclick="openF()">Включить</button>';
 }
 
 function checkLight() {
@@ -142,6 +142,8 @@ function checkLight() {
 
     function fixLight() {
       currentLightValue = 400; // Исправляем освещенние
+      textLight_div.innerHTML = '<button onclick="closeF()">Отключить</button>';
+      doorButton.innerHTML = 'Включен';
       lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
       textLightSensor_div.innerHTML = 'Освещенние восстановлена';
      // lightSensorButton.disabled = true;
@@ -240,7 +242,7 @@ function getAirQuality() {
     setVentilationSpeed('Высокая');
     setVentilationDirection('Прямо');
   } else {
-    textAirQuality_div.innerHTML = 'Качество воздуха - довлетворительный.';
+    textAirQuality_div.innerHTML = 'Качество воздуха - Удовлетворительный.';
     textVentilation_div.innerHTML = 'Вентиляция выключена';
     toggleVentilation();
   }
@@ -269,7 +271,7 @@ function calculateAirQuality() {
   <title>ISECALE</title>
   <style>
    body {
-	 background: url(https://wallpaperaccess.com/full/2367881.jpg)
+    // background: url(https://wallpaperaccess.com/full/2367881.jpg)
     }
    </body>
   </html>
