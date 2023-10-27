@@ -11,17 +11,21 @@
 
 <button id="btn" onclick="Connect()"> Подключение </button>
 
-<button id="door" style="display: none;" onclick="openF()">Включить / Отключить свет</button>
+<button id="door" style="display: none;" onclick="openF()">Включить свет</button>
 <button id="getTemp" style="display: none;" onclick="Temp()">Текущая температура</button>
 <button id="pushRelay" style="display: none;" onclick="pushR()">Питание реле</button>
 <button id="getHumidity" style="display: none;" onclick="getH()">Влажность</button>
 <button id="motionSensor" style="display: none;" onclick="checkMotion()">Датчик движения</button>
-<button id="lightSensor" style="display: none;" onclick="checkLight()">Датчик освещения</button>
+<button id="lightSensor" style="display: none;" onclick="checkLight()">Датчик освещенния</button>
+<button id="getAirQuality" style="display: none;" onclick="getAirQuality()">Качество воздуха</button>
+<button id="ventilation" style="display: none;" onclick="toggleVentilation()">Управление вентиляцией</button>
 
 
 <div id="mqttMess">Журнал MQTT-сообщений: </div>
 <div id="text"></div>
 <div id="textRelay"></div>
+<div id="textAirQuality"></div>
+<div id="textVentilation"></div>
 <div id="textLightSensor"></div>
 <div id="textLight"></div>
 <div id="textTemp"></div>
@@ -44,6 +48,8 @@ var textHumidityPlus_div = document.getElementById("textHumidityPlus");
 var textHumidityMinus_div = document.getElementById("textHumidityMinus");
 var textRelay_div = document.getElementById("textRelay");
 var textLightSensor_div = document.getElementById("textLightSensor");
+var textAirQuality_div = document.getElementById("textAirQuality");
+var textVentilation_div = document.getElementById("textVentilation");
 var connectButton = document.getElementById("btn");
 var doorButton = document.getElementById("door")
 var tempButton = document.getElementById("getTemp")
@@ -56,13 +62,16 @@ var relayButton = document.getElementById("pushRelay");
 var motionSensorButton = document.getElementById("motionSensor");
 var lightSensorButton = document.getElementById("lightSensor");
 var fixLightButton = document.getElementById("fixLight");
+var getAirQualityButton = document.getElementById("getAirQuality");
+var toggleVentilationButton = document.getElementById("ventilation"); 
+
 
 	var currentTemp = 0; // Начальная температура
 	var minTemp = 18; // Минимальная температура (в градусах Цельсия)
-	var maxTemp = 32; // Максимальная температура (в градусах Цельсия)
+	var maxTemp = 24; // Максимальная температура (в градусах Цельсия)
 	
 	var currentHumidity = 0; // Начальная влажность
-	var minHumidity = 30; // Минимальная влажность (в процентах)
+	var minHumidity = 40; // Минимальная влажность (в процентах)
   	var maxHumidity = 60; // Максимальная влажность (в процентах)
 
 		var motionDetected = false;
@@ -70,6 +79,11 @@ var fixLightButton = document.getElementById("fixLight");
 
     			var criticalLightValue = 200; // Критическое значение освещенние
     			var currentLightValue = 0; // Текущее значение освещенние
+	
+	var ventilationOn = false; // Переменная для отслеживания состояния вентиляции
+	var ventilationSpeed = "Средняя"; // Начальная скорость вентиляции
+	var ventilationDirection = "Прямо"; // Начальное направление вентиляции
+
 
 
 function Connect() {
@@ -88,6 +102,8 @@ function Connect() {
     document.getElementById("pushRelay").style.display = "inline-block";
     document.getElementById("getHumidity").style.display = "inline-block";
     document.getElementById("motionSensor").style.display = "inline-block";
+    document.getElementById("getAirQuality").style.display = "inline-block";
+    document.getElementById("ventilation").style.display = "inline-block";
     lightSensorButton.style = "inline-block";
     fixLightButton.style = "inline-block";
     increaseTemp.style.style = "inline-block";
@@ -96,16 +112,40 @@ function Connect() {
 }
 
 function openF() {
+  currentLightValue = Math.floor(Math.random() * 500); // Генерируем случайное значение освещенности
+  lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
+ // lightSensorButton.disabled = true;  
   doorButton.innerHTML = 'Включен';
   doorButton.disabled = true;	
   textLight_div.innerHTML = 'Включить <button onclick="closeF()">Отключить</button>';
 }
 
 function closeF() {
+  currentLightValue = 0; 
   doorButton.innerHTML = 'Выключен';
+  lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
+ // lightSensorButton.disabled = true;
   doorButton.disabled = true;
   textLight_div.innerHTML = 'Отключить <button onclick="openF()">Включить</button>';
 }
+
+function checkLight() {
+      
+      if (currentLightValue < criticalLightValue) {
+        textLightSensor_div.innerHTML = 'Критическая значение освещенние! <button onclick="fixLight()">Исправить</button>';
+	fixLightButton.disabled = false;
+      } else {
+        textLightSensor_div.innerHTML = 'Освещенние в норме';
+	// lightSensorButton.disabled = true;
+      }
+    }
+
+    function fixLight() {
+      currentLightValue = 400; // Исправляем освещенние
+      lightSensorButton.innerHTML = 'Освещенние: ' + currentLightValue;
+      textLightSensor_div.innerHTML = 'Освещенние восстановлена';
+     // lightSensorButton.disabled = true;
+    }
 
 function Temp() {
   currentTemp = Math.floor(Math.random() * (maxTemp - minTemp + 1)) + minTemp;
@@ -159,29 +199,61 @@ function decreaseHumidity() {
 }
 
 function checkMotion() {
-       motionSensorButton.innerHTML = 'Датчик движения (активен)';
+       motionSensorButton.innerHTML = 'Датчик движения (активен, недоступен)';
       motionSensorButton.disabled = true;
     }
 
-function checkLight() {
-      currentLightValue = Math.floor(Math.random() * 500); // Генерируем случайное значение освещености
-      lightSensorButton.innerHTML = 'Освещение: ' + currentLightValue;
+function toggleVentilation() {
+  if (ventilationOn) {
+    ventilationOn = false;
+    textAirQuality_div.innerHTML = 'Качество воздуха - 	Неудовлетворительный.';
+    textVentilation_div.innerHTML = 'Вентиляция выключена';
+  } else {
+    ventilationOn = true;
+    textAirQuality_div.innerHTML = 'Качество воздуха - В пределах нормы.';
+    textVentilation_div.innerHTML = 'Вентиляция включена. Скорость: ' + ventilationSpeed + ', Направление: ' + ventilationDirection;
+  }
+}
 
-      if (currentLightValue < criticalLightValue) {
-        textLightSensor_div.innerHTML = 'Критическая значение освещение! <button onclick="fixLight()">Исправить</button>';
-	fixLightButton.disabled = false;
-      } else {
-        textLightSensor_div.innerHTML = 'Освещение в норме';
-	lightSensorButton.disabled = true;
-      }
-    }
+function setVentilationSpeed(speed) {
+  if (ventilationOn) {
+    ventilationSpeed = speed;
+    textAirQuality_div.innerHTML = 'Качество воздуха - В пределах нормы.';
+    textVentilation_div.innerHTML = 'Вентиляция включена. Скорость: ' + ventilationSpeed + ', Направление: ' + ventilationDirection;
+  }
+}
 
-    function fixLight() {
-      currentLightValue = 400; // Исправляем освещение
-      lightSensorButton.innerHTML = 'Освещение: ' + currentLightValue;
-      textLightSensor_div.innerHTML = 'Освещение восстановлена';
-      lightSensorButton.disabled = true;
-    }
+function setVentilationDirection(direction) {
+  if (ventilationOn) {
+    ventilationDirection = direction;
+    textVentilation_div.innerHTML = 'Вентиляция включена. Скорость: ' + ventilationSpeed + ', Направление: ' + ventilationDirection;
+  }
+}
+
+function getAirQuality() {
+  // Здесь вы можете определить качество воздуха (например, с использованием датчиков)
+  var airQuality = calculateAirQuality(); // Функция, которая вычисляет качество воздуха
+
+  if (airQuality === 'Плохое') {
+    textAirQuality_div.innerHTML = 'Качество воздуха - Неудовлетворительный.';
+    textVentilation_div.innerHTML = 'Вентиляция включена. Скорость: Высокая, Направление: Прямо';
+    setVentilationSpeed('Высокая');
+    setVentilationDirection('Прямо');
+  } else {
+    textAirQuality_div.innerHTML = 'Качество воздуха - довлетворительный.';
+    textVentilation_div.innerHTML = 'Вентиляция выключена';
+    toggleVentilation();
+  }
+ getAirQualityButton.disabled = true;
+}
+
+function calculateAirQuality() {
+  // Здесь вы можете реализовать логику для определения качества воздуха (например, на основе данных с датчиков)
+  // Верните "Плохое" или "Отличное" в зависимости от результатов измерений
+  // Здесь просто имитируется результат
+  return (Math.random() < 0.5) ? 'Плохое' : 'Отличное';
+}
+
 
  </script>
 <br><br>
